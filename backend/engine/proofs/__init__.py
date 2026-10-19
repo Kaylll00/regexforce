@@ -1,0 +1,1 @@
+"""Proof and demonstration helpers."""
