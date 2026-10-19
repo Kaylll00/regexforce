@@ -28,8 +28,38 @@ button, a, input, textarea, select {
   transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
-button { cursor: pointer; }
-button:hover:not(:disabled) { transform: translateY(-1px); }
+button, a[class*="bg-"] {
+  display: inline-flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  line-height: 1.2;
+}
+button:hover:not(:disabled), a[class*="bg-"]:hover {
+  transform: translateY(-1px);
+}
+button[class*="bg-cyan-"]:hover:not(:disabled),
+a[class*="bg-cyan-"]:hover {
+  background-color: #22d3ee;
+  color: #07111f;
+  box-shadow: 0 8px 20px rgba(34, 211, 238, 0.2);
+}
+button[class*="bg-slate-"]:hover:not(:disabled),
+a[class*="bg-slate-"]:hover {
+  background-color: #334155;
+  border-color: #475569;
+  color: #f8fafc;
+}
+button[class*="bg-red-"]:hover:not(:disabled) {
+  background-color: #b91c1c;
+  color: #fff1f2;
+}
+button[class*="border-"]:not([class*="bg-"]):hover:not(:disabled) {
+  border-color: #67e8f9;
+  background-color: rgba(34, 211, 238, 0.08);
+  color: #cffafe;
+}
 button:disabled { cursor: not-allowed; opacity: 0.55; }
 button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
   outline: none;

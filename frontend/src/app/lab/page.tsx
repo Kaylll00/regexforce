@@ -92,10 +92,12 @@ export default function Lab() {
         <h2 className="font-semibold">Selected state</h2>
         {selected ? <div className="mt-3 space-y-3">
           <p className="font-mono">{selected}</p>
-          <button className="rounded bg-slate-700 px-3 py-2 text-sm" onClick={() => edit(setStart(automaton, selected))}>Set start</button>
-          <button className="ml-2 rounded bg-slate-700 px-3 py-2 text-sm" onClick={() => edit(toggleAccepting(automaton, selected))}>Toggle accepting</button>
-          <button className="mt-2 block rounded bg-red-900 px-3 py-2 text-sm" onClick={() => edit(removeState(automaton, selected))}>Delete state</button>
-          <button className="rounded bg-slate-700 px-3 py-2 text-sm" onClick={() => { const next = window.prompt("New state name:", selected); if (next) edit(renameState(automaton, selected, next)); }}>Rename</button>
+          <div className="flex flex-wrap gap-2">
+            <button className="rounded bg-slate-700 px-3 py-2 text-sm" onClick={() => edit(setStart(automaton, selected))}>Set start</button>
+            <button className="rounded bg-slate-700 px-3 py-2 text-sm" onClick={() => edit(toggleAccepting(automaton, selected))}>Toggle accepting</button>
+            <button className="rounded bg-slate-700 px-3 py-2 text-sm" onClick={() => { const next = window.prompt("New state name:", selected); if (next) edit(renameState(automaton, selected, next)); }}>Rename</button>
+            <button className="rounded bg-red-900 px-3 py-2 text-sm" onClick={() => edit(removeState(automaton, selected))}>Delete state</button>
+          </div>
         </div> : <p className="mt-3 text-sm text-slate-400">Select a state in the graph.</p>}
       </aside>
     </section>
