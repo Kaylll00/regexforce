@@ -6,7 +6,7 @@
 | 2 | done | Implemented validated NFA/DFA models, Thompson construction, simulation explanations, subset construction, epsilon removal/reversal, completion, minimization, transition tables, and language-preservation tests. 46 tests passed; Ruff and mypy passed. |
 | 3 | done | Implemented regex simplification, GNFA state elimination, Arden conversion explanations, and the regex-to-automata pipeline. 54 tests passed; Ruff and mypy passed. |
 | 4 | done | Implemented regular grammar parsing, printing, grammar/automaton/regex conversions, and cycle-safe derivation search. 63 tests passed; Ruff and mypy passed. |
-| 5 | pending | |
+| 5 | done | Implemented rule resolution, DFA alignment/products, closure operations, equivalence with shortest counterexamples, language properties, and multi-rule comparison. 68 tests passed; Ruff and mypy passed. |
 | 6 | pending | |
 | 7 | pending | |
 | 8 | pending | |
