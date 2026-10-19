@@ -62,19 +62,6 @@ export default function Studio() {
       setError(reason instanceof ApiError ? reason.message : "Export failed.");
     } finally { setBusy(false); }
   }
-  async function saveRule() {
-    const projectId = sessionStorage.getItem("regexforge-project-id");
-    if (!projectId) { setError("Select a project before saving."); return; }
-    try { await apiPost(`/api/projects/${projectId}/rules`, { name: "Studio rule", kind: "regex", definition: { regex, textbook } }); }
-    catch (reason) { setError(reason instanceof ApiError ? reason.message : "Could not save rule."); }
-  }
-  async function saveTestSet() {
-    const projectId = sessionStorage.getItem("regexforge-project-id");
-    if (!projectId) { setError("Select a project before saving."); return; }
-    try { await apiPost(`/api/projects/${projectId}/test-sets`, { name: "Studio tests", strings: testString ? [{ value: testString }] : [] }); }
-    catch (reason) { setError(reason instanceof ApiError ? reason.message : "Could not save test set."); }
-  }
-
   const automaton = build?.[selected];
   return <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-6 py-8">
     <div><h1 className="text-3xl font-bold">Regex Studio</h1><p className="text-slate-300">Type a regex to build and compare its automata.</p></div>
@@ -83,7 +70,7 @@ export default function Studio() {
       <input id="regex" className="mt-2 w-full rounded-lg border border-slate-600 bg-slate-950 px-3 py-3 font-mono" value={regex} onChange={(event) => setRegex(event.target.value)} />
       <label className="mt-3 flex gap-2 text-sm"><input type="checkbox" checked={textbook} onChange={(event) => setTextbook(event.target.checked)} /> Textbook mode</label>
       {error && <p className="mt-3 text-red-300" role="alert">{error}</p>}
-      {build && <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-slate-400"><span>Canonical: <code>{build.canonical}</code> · Alphabet: {build.alphabet.join(", ") || "∅"}</span><button className="rounded bg-slate-700 px-2 py-1" onClick={() => void saveRule()}>Save rule</button><button className="rounded bg-slate-700 px-2 py-1" onClick={() => void saveTestSet()}>Save test set</button></div>}
+      {build && <div className="mt-3 text-sm text-slate-400"><span>Canonical: <code>{build.canonical}</code> · Alphabet: {build.alphabet.join(", ") || "∅"}</span></div>}
     </section>
     {automaton && <><div className="flex flex-wrap gap-2">{(["nfa", "dfa", "min_dfa"] as const).map((name) =>
       <button className={`rounded-lg px-3 py-2 text-sm ${selected === name ? "bg-cyan-400 text-slate-950" : "bg-slate-800"}`} key={name} onClick={() => setSelected(name)}>{name === "min_dfa" ? "Min DFA" : name.toUpperCase()}</button>)}</div>

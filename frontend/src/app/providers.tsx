@@ -1,33 +1,20 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { apiPost } from "@/lib/api";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
-  const [projects, setProjects] = useState<Array<{ id: number; name: string }>>([]);
-  const [projectId, setProjectId] = useState("");
-  useEffect(() => { void fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"}/api/projects`).then((response) => response.json() as Promise<Array<{ id: number; name: string }>>).then(setProjects).catch(() => undefined); }, []);
-  async function createProject() {
-    const name = window.prompt("Project name", "Untitled project");
-    if (!name) return;
-    const project = await apiPost<{ id: number; name: string }>("/api/projects", { name });
-    setProjects((current) => [...current, project]); setProjectId(String(project.id));
-  }
   return (
     <QueryClientProvider client={queryClient}>
-      <header className="border-b border-slate-800 bg-slate-950">
-        <nav className="mx-auto flex max-w-7xl flex-wrap gap-4 px-6 py-4 text-sm">
+      <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/85 shadow-lg shadow-slate-950/20 backdrop-blur-xl">
+        <nav className="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-6 py-3 text-sm">
+          <Link className="mr-3 flex items-center gap-2 rounded-xl px-2 py-2 font-semibold text-white" href="/"><span className="grid h-7 w-7 place-items-center rounded-lg bg-cyan-300 font-mono text-sm text-slate-950">R</span>RegexForge</Link>
           {[
             ["Home", "/"], ["Studio", "/studio"], ["Lab", "/lab"], ["Grammar", "/grammar"],
             ["Analyzer", "/analyzer"], ["Proofs", "/proofs"], ["Help", "/help"],
-          ].map(([label, href]) => <Link className="rounded text-slate-300 outline-none hover:text-cyan-200 focus:ring-2 focus:ring-cyan-300" href={href} key={href}>{label}</Link>)}
-          <select aria-label="Project" className="rounded bg-slate-800 px-2" value={projectId} onChange={(event) => { setProjectId(event.target.value); sessionStorage.setItem("regexforge-project-id", event.target.value); }}><option value="">Project</option>{projects.map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}</select>
-          <button className="rounded bg-slate-700 px-2" onClick={() => void createProject()}>New project</button>
-          <button className="rounded bg-slate-700 px-2" onClick={() => { const project = projects.find((item) => String(item.id) === projectId); const name = window.prompt("New project name", project?.name); if (project && name) void apiPost(`/api/projects/${project.id}`, { name }).then(() => setProjects((current) => current.map((item) => item.id === project.id ? { ...item, name } : item))); }}>Rename</button>
-          <button className="rounded bg-red-900 px-2" onClick={() => { if (projectId && window.confirm("Delete selected project?")) void fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"}/api/projects/${projectId}`, { method: "DELETE" }).then(() => setProjects((current) => current.filter((item) => String(item.id) !== projectId))); }}>Delete</button>
+          ].map(([label, href]) => <Link className="rounded-lg px-3 py-2 text-slate-400 outline-none hover:bg-slate-800 hover:text-cyan-200 focus:ring-2 focus:ring-cyan-300" href={href} key={href}>{label}</Link>)}
         </nav>
       </header>
       {children}
