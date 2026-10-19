@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import Response
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -27,6 +28,7 @@ from app.services.engine_service import (
     parse_regex,
     steps_result,
 )
+from app.services.report_service import build_csv, build_pdf
 from engine.analysis.closure import apply_closure
 from engine.analysis.equivalence import check_equivalence
 from engine.analysis.properties import is_empty, is_finite, is_universal, shortest_accepted
@@ -48,10 +50,36 @@ from engine.grammar.convert import (
 from engine.grammar.derivation import find_derivation
 from engine.grammar.parser import parse_grammar
 from engine.grammar.printer import grammar_to_text
+from engine.proofs.pumping import check_all, check_decomposition, decompositions, validate_choice
+from engine.proofs.templates import get_template, list_templates
 from engine.regex.parser import parse
 from engine.regex.printer import to_string
 
 router = APIRouter(prefix="/api")
+
+
+@router.post("/reports/pdf")
+def reports_pdf(request: dict[str, Any], db: Session = Depends(get_db)):
+    content = build_pdf(request)
+    project_id = request.get("project_id")
+    if project_id is not None and db.get(Project, project_id) is not None:
+        item = AnalysisReport(project_id=project_id, kind="pdf", input_refs=request, result={"title": request.get("title", "RegexForge report")})
+        db.add(item)
+        db.commit()
+    return Response(content, media_type="application/pdf", headers={"Content-Disposition": 'attachment; filename="regexforge-report.pdf"'})
+
+
+@router.post("/reports/csv")
+def reports_csv(request: dict[str, Any]):
+    return Response(build_csv(request), media_type="text/csv", headers={"Content-Disposition": 'attachment; filename="regexforge.csv"'})
+
+
+@router.get("/reports/{report_id}/pdf")
+def saved_report_pdf(report_id: int, db: Session = Depends(get_db)):
+    report = db.get(AnalysisReport, report_id)
+    if report is None:
+        raise HTTPException(404, "Report not found")
+    return Response(build_pdf(report.input_refs), media_type="application/pdf", headers={"Content-Disposition": 'attachment; filename="regexforge-report.pdf"'})
 
 
 @router.post("/regex/parse")
@@ -204,6 +232,86 @@ def analysis_compare_many(request: dict[str, Any]):
     rules = [(item["name"], resolve_rule(item["rule"], request.get("alphabet"))[0]) for item in request["rules"]]
     report = compare_many(rules)
     return {"matrix": report.matrix, "redundant": report.redundant}
+
+
+@router.get("/proofs/templates")
+def proof_templates():
+    return [
+        {
+            "id": template.id,
+            "name": template.name,
+            "description": template.description,
+            "is_regular": template.is_regular,
+            "alphabet": list(template.alphabet),
+            "outline": [step.to_dict() for step in template.outline],
+        }
+        for template in list_templates()
+    ]
+
+
+@router.post("/proofs/pumping/witness")
+def proof_witness(request: dict[str, Any]):
+    return {"string": get_template(request["template_id"]).witness(_proof_p(request))}
+
+
+@router.post("/proofs/pumping/decompositions")
+def proof_decompositions(request: dict[str, Any]):
+    template = get_template(request["template_id"])
+    string = _proof_string(request)
+    problems = validate_choice(template, _proof_p(request), string)
+    return {
+        "problems": problems,
+        "decompositions": [
+            {"x": item.x, "y": item.y, "z": item.z, "x_len": item.x_len, "y_len": item.y_len}
+            for item in decompositions(string, _proof_p(request))
+        ],
+    }
+
+
+@router.post("/proofs/pumping/check")
+def proof_check(request: dict[str, Any]):
+    template = get_template(request["template_id"])
+    p = _proof_p(request)
+    string = _proof_string(request)
+    problems = validate_choice(template, p, string)
+    if problems:
+        return {"problems": problems, "disclaimer": ""}
+    if "x_len" in request:
+        result = check_decomposition(template, string, request["x_len"], request["y_len"], request.get("i", 0))
+        return {
+            "decomposition": result.decomposition.__dict__,
+            "i": result.i,
+            "pumped": result.pumped,
+            "in_language": result.in_language,
+            "steps": [step.to_dict() for step in result.steps],
+        }
+    report = check_all(template, string, p)
+    return {
+        "p": report.p,
+        "string": report.string,
+        "total": report.total,
+        "refuted": report.refuted,
+        "survivors": [item.__dict__ for item in report.survivors],
+        "witness_i": report.witness_i,
+        "steps": [step.to_dict() for step in report.steps],
+        "disclaimer": report.disclaimer,
+    }
+
+
+def _proof_p(request: dict[str, Any]) -> int:
+    p = request.get("p")
+    if not isinstance(p, int) or not 1 <= p <= 12:
+        from engine.errors import LimitError
+        raise LimitError("p must be between 1 and 12.")
+    return p
+
+
+def _proof_string(request: dict[str, Any]) -> str:
+    string = request.get("s", "")
+    if not isinstance(string, str) or len(string) > 200:
+        from engine.errors import LimitError
+        raise LimitError("The string must be at most 200 characters.")
+    return string
 
 
 @router.post("/projects")

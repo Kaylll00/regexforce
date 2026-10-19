@@ -12,5 +12,5 @@
 | 8 | done | Added the editable Automata Lab, pure automaton editing helpers, Zustand lab store, conversions, validation, import/export, simulation results, unsaved-work warning, and frontend tests. |
 | 9 | done | Added the Grammar Converter UI with debounced parsing, grammar examples, grammar/automaton/regex conversions, derivation viewer, error line mapping, and frontend tests. |
 | 10 | done | Added the tabbed Language Analyzer UI with reusable RuleEditor, equivalence checks, closure operations, properties, named rule comparisons, relation helpers, and analyzer tests. |
-| 11 | pending | |
-| 12 | pending | |
+| 11 | done | Added the proof engine templates and pumping checks, proof API endpoints with limits, `/proofs` workbench, disclaimer, decomposition checker, numeric report, symbolic outlines, and backend/frontend tests. |
+| 12 | done | Added PDF/CSV report exports, saved report regeneration, project switcher with project CRUD controls, Studio/Analyzer persistence actions, Help documentation, README setup instructions, responsive/accessibility polish, and final validation. Backend: 77 passed, engine coverage 90%, Ruff and mypy clean. Frontend: 9 test files/15 tests, lint, type-check, and build passed. PDF reports use tables/text rather than circular diagrams; full live browser walkthrough remains for manual review. |
