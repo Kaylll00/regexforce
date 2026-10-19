@@ -3,7 +3,7 @@
 |---|---|---|
 | 0 | done | Added engine/app skeleton, shared errors and steps utilities, test configuration, environment examples, and smoke tests. Backend and frontend validation passed. |
 | 1 | done | Implemented the formal regex AST, lexer, parser, printer, non-throwing highlighter, derivative matcher, and Hypothesis/reference tests. Backend tests, Ruff, and mypy passed. |
-| 2 | pending | |
+| 2 | done | Implemented validated NFA/DFA models, Thompson construction, simulation explanations, subset construction, epsilon removal/reversal, completion, minimization, transition tables, and language-preservation tests. 46 tests passed; Ruff and mypy passed. |
 | 3 | pending | |
 | 4 | pending | |
 | 5 | pending | |
