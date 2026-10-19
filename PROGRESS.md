@@ -10,7 +10,7 @@
 | 6 | done | Implemented FastAPI engine endpoints, validation/error mapping, SQLAlchemy persistence models, CRUD routes, SQLite-testable API tests, and Alembic migration. 72 tests passed; Ruff and mypy passed. |
 | 7 | done | Frontend foundation, API client, automaton views, helper utilities, placeholders, and `/studio` workflow. Frontend tests, lint, type-check, and production build pass. |
 | 8 | done | Added the editable Automata Lab, pure automaton editing helpers, Zustand lab store, conversions, validation, import/export, simulation results, unsaved-work warning, and frontend tests. |
-| 9 | pending | |
+| 9 | done | Added the Grammar Converter UI with debounced parsing, grammar examples, grammar/automaton/regex conversions, derivation viewer, error line mapping, and frontend tests. |
 | 10 | pending | |
 | 11 | pending | |
 | 12 | pending | |
