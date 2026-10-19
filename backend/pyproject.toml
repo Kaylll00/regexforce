@@ -6,5 +6,8 @@ addopts = "-q"
 [tool.ruff]
 line-length = 100
 
+[tool.ruff.lint]
+ignore = ["B008"]
+
 [tool.mypy]
 ignore_missing_imports = true

@@ -7,7 +7,7 @@
 | 3 | done | Implemented regex simplification, GNFA state elimination, Arden conversion explanations, and the regex-to-automata pipeline. 54 tests passed; Ruff and mypy passed. |
 | 4 | done | Implemented regular grammar parsing, printing, grammar/automaton/regex conversions, and cycle-safe derivation search. 63 tests passed; Ruff and mypy passed. |
 | 5 | done | Implemented rule resolution, DFA alignment/products, closure operations, equivalence with shortest counterexamples, language properties, and multi-rule comparison. 68 tests passed; Ruff and mypy passed. |
-| 6 | pending | |
+| 6 | done | Implemented FastAPI engine endpoints, validation/error mapping, SQLAlchemy persistence models, CRUD routes, SQLite-testable API tests, and Alembic migration. 72 tests passed; Ruff and mypy passed. |
 | 7 | pending | |
 | 8 | pending | |
 | 9 | pending | |
