@@ -11,6 +11,6 @@
 | 7 | done | Frontend foundation, API client, automaton views, helper utilities, placeholders, and `/studio` workflow. Frontend tests, lint, type-check, and production build pass. |
 | 8 | done | Added the editable Automata Lab, pure automaton editing helpers, Zustand lab store, conversions, validation, import/export, simulation results, unsaved-work warning, and frontend tests. |
 | 9 | done | Added the Grammar Converter UI with debounced parsing, grammar examples, grammar/automaton/regex conversions, derivation viewer, error line mapping, and frontend tests. |
-| 10 | pending | |
+| 10 | done | Added the tabbed Language Analyzer UI with reusable RuleEditor, equivalence checks, closure operations, properties, named rule comparisons, relation helpers, and analyzer tests. |
 | 11 | pending | |
 | 12 | pending | |
