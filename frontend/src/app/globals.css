@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #07111f;
+  --foreground: #e5edf7;
+  --line: #223956;
+  --accent: #67e8f9;
 }
 
 @theme inline {
@@ -12,15 +14,109 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  min-width: 320px;
+  background:
+    radial-gradient(circle at 10% -10%, rgba(34, 211, 238, 0.12), transparent 30rem),
+    radial-gradient(circle at 90% 0%, rgba(99, 102, 241, 0.1), transparent 32rem),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.01em;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em;
 }
+
+code, pre, .font-mono {
+  letter-spacing: 0;
+}
+
+button, a, input, textarea, select {
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+button, a[class*="bg-"] {
+  display: inline-flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  line-height: 1.2;
+}
+button:hover:not(:disabled), a[class*="bg-"]:hover {
+  transform: translateY(-1px);
+}
+button[class*="bg-cyan-"]:hover:not(:disabled),
+a[class*="bg-cyan-"]:hover {
+  background-color: #22d3ee;
+  color: #07111f;
+  box-shadow: 0 8px 20px rgba(34, 211, 238, 0.2);
+}
+button[class*="bg-slate-"]:hover:not(:disabled),
+a[class*="bg-slate-"]:hover {
+  background-color: #334155;
+  border-color: #475569;
+  color: #f8fafc;
+}
+button[class*="bg-red-"]:hover:not(:disabled) {
+  background-color: #b91c1c;
+  color: #fff1f2;
+}
+button[class*="border-"]:not([class*="bg-"]):hover:not(:disabled) {
+  border-color: #67e8f9;
+  background-color: rgba(34, 211, 238, 0.08);
+  color: #cffafe;
+}
+button:disabled { cursor: not-allowed; opacity: 0.55; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(103, 232, 249, 0.24);
+}
+input, textarea, select { border: 1px solid var(--line); }
+input::placeholder, textarea::placeholder { color: #60758f; }
+::selection { background: rgba(103, 232, 249, 0.28); }
+
+.surface {
+  border: 1px solid var(--line);
+  background: linear-gradient(145deg, rgba(18, 36, 59, 0.92), rgba(10, 24, 41, 0.94));
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.modal {
+  width: min(92vw, 30rem);
+  border: 0;
+  border-radius: 1.25rem;
+  padding: 0;
+  color: var(--foreground);
+  background: transparent;
+}
+
+.modal::backdrop { background: rgba(2, 8, 23, 0.78); backdrop-filter: blur(8px); }
+.modal-card {
+  border: 1px solid #2c496b;
+  border-radius: 1.25rem;
+  padding: 1.4rem;
+  background: #0d1b2e;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+.icon-button {
+  display: inline-grid;
+  height: 2rem;
+  width: 2rem;
+  place-items: center;
+  border-radius: 0.6rem;
+  color: #9fb4ca;
+  background: rgba(148, 163, 184, 0.1);
+  font-size: 1.25rem;
+}
+.icon-button:hover { color: white; background: rgba(148, 163, 184, 0.2); }

@@ -1,10 +1,11 @@
 import Link from "next/link";
 
 export default function Home() {
-  return <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-6 py-16">
-    <p className="text-sm uppercase tracking-widest text-cyan-300">RegexForge</p>
-    <h1 className="max-w-3xl text-5xl font-bold">Explore regular languages with proof-friendly explanations.</h1>
-    <p className="max-w-2xl text-lg text-slate-300">Build automata from classical regexes, inspect every transformation, and test strings interactively.</p>
-    <Link className="w-fit rounded-lg bg-cyan-400 px-5 py-3 font-semibold text-slate-950" href="/studio">Open Regex Studio</Link>
+  return <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-10 px-6 py-16 lg:py-24">
+    <section className="grid items-end gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+      <div><p className="eyebrow">Formal language workbench</p><h1 className="mt-5 max-w-4xl text-5xl font-bold leading-[1.05] tracking-tight text-white sm:text-7xl">Make regex theory <span className="text-cyan-300">visible.</span></h1><p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">Build automata, compare languages, explore grammars, and follow every algorithm step in one focused workspace.</p><div className="mt-8 flex flex-wrap gap-3"><Link className="rounded-xl bg-cyan-300 px-5 py-3 font-semibold text-slate-950 shadow-lg shadow-cyan-950/40" href="/studio">Open Regex Studio</Link><Link className="rounded-xl border border-slate-600 bg-slate-900/70 px-5 py-3 font-semibold text-slate-200" href="/help">Explore the guide</Link></div></div>
+      <div className="surface rounded-3xl p-6"><p className="eyebrow">A guided workflow</p><div className="mt-5 space-y-4">{[["01", "Define", "Write a classical regex or grammar."], ["02", "Transform", "Inspect NFA, DFA, and minimization steps."], ["03", "Reason", "Compare languages and test proof patterns."]].map(([number, title, text]) => <div className="flex gap-4" key={number}><span className="font-mono text-sm text-cyan-300">{number}</span><div><h2 className="font-semibold text-white">{title}</h2><p className="mt-1 text-sm text-slate-400">{text}</p></div></div>)}</div></div>
+    </section>
+    <section className="grid gap-4 md:grid-cols-3"><Link className="surface rounded-2xl p-5 hover:border-cyan-400/60" href="/lab"><p className="text-2xl">◇</p><h2 className="mt-4 font-semibold text-white">Automata Lab</h2><p className="mt-2 text-sm text-slate-400">Edit states and transitions visually.</p></Link><Link className="surface rounded-2xl p-5 hover:border-cyan-400/60" href="/analyzer"><p className="text-2xl">⇄</p><h2 className="mt-4 font-semibold text-white">Language Analyzer</h2><p className="mt-2 text-sm text-slate-400">Compare, operate, and inspect properties.</p></Link><Link className="surface rounded-2xl p-5 hover:border-cyan-400/60" href="/proofs"><p className="text-2xl">∴</p><h2 className="mt-4 font-semibold text-white">Proof Workbench</h2><p className="mt-2 text-sm text-slate-400">Run honest Pumping Lemma demonstrations.</p></Link></section>
   </main>;
 }

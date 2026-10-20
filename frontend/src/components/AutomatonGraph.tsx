@@ -41,7 +41,7 @@ export function AutomatonGraph({ automaton, activeStates = [], height = 260, edi
     }
   };
   return (
-    <div className="rounded-xl border border-slate-700 bg-slate-950" style={{ height }}>
+    <div className="overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-950 shadow-inner shadow-cyan-950/20" style={{ height }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
