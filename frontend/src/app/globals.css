@@ -21,7 +21,16 @@ body {
     radial-gradient(circle at 90% 0%, rgba(99, 102, 241, 0.1), transparent 32rem),
     var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em;
+}
+
+code, pre, .font-mono {
+  letter-spacing: 0;
 }
 
 button, a, input, textarea, select {
