@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #07111f;
+  --background: #081321;
   --foreground: #e5edf7;
-  --line: #223956;
+  --line: #263d58;
   --accent: #67e8f9;
 }
 
@@ -16,13 +16,26 @@
 
 body {
   min-width: 320px;
-  background:
-    radial-gradient(circle at 10% -10%, rgba(34, 211, 238, 0.12), transparent 30rem),
-    radial-gradient(circle at 90% 0%, rgba(99, 102, 241, 0.1), transparent 32rem),
-    var(--background);
+  background: linear-gradient(180deg, #0b1728 0%, var(--background) 22rem, #07111f 100%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -0.01em;
+}
+
+/* Normalize legacy utility surfaces into one quiet workbench palette. */
+[class~="bg-slate-900"] {
+  background: linear-gradient(145deg, rgba(18, 36, 59, 0.94), rgba(11, 26, 44, 0.96)) !important;
+  border-color: var(--line);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+}
+
+[class~="bg-slate-950"] {
+  background-color: rgba(5, 15, 28, 0.82) !important;
+}
+
+[class~="bg-slate-800"] {
+  background-color: rgba(25, 46, 70, 0.88) !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
