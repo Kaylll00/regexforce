@@ -84,38 +84,38 @@ export default function GrammarPage() {
         <h1 className="text-3xl font-bold">Grammar Converter</h1>
         <p className="text-slate-300">Parse regular grammars, inspect their derivations, and convert them to automata or regex.</p>
       </div>
-      <section className="grid gap-6 lg:grid-cols-[1fr_280px]">
-        <div className="rounded-xl border border-slate-700 bg-slate-900 p-4">
+      <section className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_17rem]">
+        <div className="rounded-2xl border border-slate-700/80 bg-slate-900/80 p-4 shadow-lg shadow-black/10">
           <label className="block text-sm text-slate-300" htmlFor="grammar-input">Grammar</label>
-          <textarea id="grammar-input" className="mt-2 min-h-48 w-full rounded-lg bg-slate-950 p-3 font-mono text-sm" value={grammar} onChange={(event) => setGrammar(event.target.value)} />
+          <textarea id="grammar-input" className="mt-2 min-h-40 w-full rounded-xl border border-slate-700 bg-slate-950 p-3 font-mono text-sm leading-6 text-slate-100 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20" value={grammar} onChange={(event) => setGrammar(event.target.value)} />
           <p className="mt-3 text-xs text-slate-400">Use single uppercase ASCII nonterminals, one production per line, and single-character terminals. Epsilon is ε or \e.</p>
           {error && <p className="mt-3 rounded border border-red-800 bg-red-950/40 p-3 text-red-200" role="alert">{error.code}: {error.message}{error.position ? ` (line ${error.position})` : ""}</p>}
-          {parseResult && <div className="mt-4 grid gap-3 sm:grid-cols-2"><p><span className="text-slate-400">Detected kind:</span> {parseResult.kind}</p><pre className="rounded bg-slate-950 p-3 text-sm">{normalized}</pre></div>}
         </div>
-        <div className="rounded-xl border border-slate-700 bg-slate-900 p-4">
+        <div className="rounded-2xl border border-slate-700/80 bg-slate-900/80 p-4 shadow-lg shadow-black/10">
           <label className="block text-sm text-slate-300" htmlFor="grammar-example">Examples</label>
-          <select id="grammar-example" className="mt-2 w-full rounded bg-slate-800 p-2" defaultValue="" onChange={(event) => { if (event.target.value) setGrammar(event.target.value); }}>
+          <select id="grammar-example" className="mt-2 w-full cursor-pointer rounded-lg border border-slate-600 bg-slate-800 p-2.5 text-sm text-slate-100 focus:border-cyan-400 focus:outline-none" defaultValue="" onChange={(event) => { if (event.target.value) setGrammar(event.target.value); }}>
             <option value="">Choose an example</option>
             {Object.keys(grammarExamples).map((name) => <option key={name} value={grammarExamples[name as keyof typeof grammarExamples]}>{name}</option>)}
           </select>
-          <p className="mt-4 text-sm text-slate-400">Regular grammars use uppercase ASCII nonterminals and single-character terminals. Mixed left/right-linear productions are rejected.</p>
+          <p className="mt-3 text-sm leading-5 text-slate-400">Regular grammars use uppercase ASCII nonterminals and single-character terminals. Mixed left/right-linear productions are rejected.</p>
         </div>
       </section>
-      <section className="flex flex-wrap gap-2 rounded-xl border border-slate-700 bg-slate-900 p-4">
+      {parseResult && <section className="grid items-start gap-3 rounded-2xl border border-slate-700/80 bg-slate-900/80 p-4 shadow-lg shadow-black/10 sm:grid-cols-[auto_minmax(0,1fr)]"><p className="rounded-lg border border-cyan-300/15 bg-cyan-300/5 px-3 py-2 text-sm"><span className="text-slate-400">Detected kind:</span> <span className="font-semibold text-cyan-200">{parseResult.kind}</span></p><div className="min-w-0"><p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Normalized productions</p><pre className="max-h-40 overflow-auto whitespace-pre-wrap rounded-lg border border-slate-800 bg-slate-950 p-3 font-mono text-sm leading-6 text-slate-300">{normalized}</pre></div></section>}
+      <section className="flex flex-wrap gap-2 rounded-2xl border border-slate-700/80 bg-slate-900/80 p-4 shadow-lg shadow-black/10">
         <button className="rounded bg-cyan-700 px-3 py-2" disabled={loading} onClick={() => void run<AutomatonResult>("/api/grammar/to-automaton", { grammar }, setConversion)}>Grammar → automaton</button>
         <button className="rounded bg-cyan-700 px-3 py-2" disabled={loading} onClick={() => void run<RegexResult>("/api/grammar/to-regex", { grammar }, setRegexResult)}>Grammar → regex</button>
       </section>
-      {conversion && <section className="space-y-4 rounded-xl border border-slate-700 bg-slate-900 p-4">
+      {conversion && <section className="space-y-4 rounded-2xl border border-slate-700/80 bg-slate-900/80 p-4 shadow-lg shadow-black/10">
         <h2 className="text-xl font-semibold">Automaton conversion</h2>
         <div className="grid gap-4 lg:grid-cols-2"><div><h3 className="mb-2 font-semibold">NFA</h3><AutomatonGraph automaton={conversion.nfa} /><TransitionTable table={conversion.tables.nfa} /></div><div><h3 className="mb-2 font-semibold">DFA</h3><AutomatonGraph automaton={conversion.dfa} /><TransitionTable table={conversion.tables.dfa} /></div></div>
         <StepsPanel steps={conversion.steps} />
       </section>}
       {regexResult && <section className="rounded-xl border border-cyan-700 bg-slate-900 p-4"><h2 className="font-semibold">Regex result</h2><code className="mt-2 block rounded bg-slate-950 p-3">{regexResult.regex}</code><button className="mt-3 rounded bg-slate-700 px-3 py-2" onClick={() => void copy(regexResult.regex)}>Copy regex</button><StepsPanel steps={regexResult.steps} /></section>}
-      <section className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-xl border border-slate-700 bg-slate-900 p-4"><h2 className="font-semibold">Regex → grammar</h2><input className="mt-3 w-full rounded bg-slate-950 p-2 font-mono" value={fromRegex} onChange={(event) => setFromRegex(event.target.value)} placeholder="(a|b)*abb" /><button className="mt-3 rounded bg-cyan-700 px-3 py-2" onClick={() => void run<{ grammar: string; steps: Step[] }>("/api/grammar/from-regex", { regex: fromRegex }, (result) => setConvertedGrammar(result.grammar))}>Convert</button>{convertedGrammar && <pre className="mt-3 whitespace-pre-wrap rounded bg-slate-950 p-3 text-sm">{convertedGrammar}</pre>}</div>
-        <div className="rounded-xl border border-slate-700 bg-slate-900 p-4"><h2 className="font-semibold">Automaton → grammar</h2><textarea className="mt-3 min-h-28 w-full rounded bg-slate-950 p-2 font-mono text-sm" value={fromAutomaton} onChange={(event) => setFromAutomaton(event.target.value)} placeholder="Paste automaton JSON" /><button className="mt-3 rounded bg-cyan-700 px-3 py-2" onClick={convertAutomatonToGrammar}>Convert</button></div>
+      <section className="grid items-start gap-4 lg:grid-cols-2">
+        <div className="rounded-2xl border border-slate-700/80 bg-slate-900/80 p-4 shadow-lg shadow-black/10"><h2 className="font-semibold">Regex → grammar</h2><input className="mt-3 w-full rounded bg-slate-950 p-2 font-mono" value={fromRegex} onChange={(event) => setFromRegex(event.target.value)} placeholder="(a|b)*abb" /><button className="mt-3 rounded bg-cyan-700 px-3 py-2" onClick={() => void run<{ grammar: string; steps: Step[] }>("/api/grammar/from-regex", { regex: fromRegex }, (result) => setConvertedGrammar(result.grammar))}>Convert</button>{convertedGrammar && <pre className="mt-3 whitespace-pre-wrap rounded bg-slate-950 p-3 text-sm">{convertedGrammar}</pre>}</div>
+        <div className="rounded-2xl border border-slate-700/80 bg-slate-900/80 p-4 shadow-lg shadow-black/10"><h2 className="font-semibold">Automaton → grammar</h2><textarea className="mt-3 min-h-28 w-full rounded bg-slate-950 p-2 font-mono text-sm" value={fromAutomaton} onChange={(event) => setFromAutomaton(event.target.value)} placeholder="Paste automaton JSON" /><button className="mt-3 rounded bg-cyan-700 px-3 py-2" onClick={convertAutomatonToGrammar}>Convert</button></div>
       </section>
-      <section className="rounded-xl border border-slate-700 bg-slate-900 p-4"><h2 className="font-semibold">Derivation viewer</h2><div className="mt-3 flex gap-2"><input className="flex-1 rounded bg-slate-950 p-2 font-mono" value={derivedString} onChange={(event) => setDerivedString(event.target.value)} placeholder="String to derive" /><button className="rounded bg-cyan-700 px-3 py-2" onClick={() => void run<DerivationResult>("/api/grammar/derive", { grammar, string: derivedString }, setDerivation)}>Derive</button></div>{derivation && <div className="mt-4"><DerivationViewer accepted={derivation.accepted} forms={derivation.forms} steps={derivation.steps} /></div>}</section>
+      <section className="rounded-2xl border border-slate-700/80 bg-slate-900/80 p-4 shadow-lg shadow-black/10"><h2 className="font-semibold">Derivation viewer</h2><div className="mt-3 flex gap-2"><input className="flex-1 rounded bg-slate-950 p-2 font-mono" value={derivedString} onChange={(event) => setDerivedString(event.target.value)} placeholder="String to derive" /><button className="rounded bg-cyan-700 px-3 py-2" onClick={() => void run<DerivationResult>("/api/grammar/derive", { grammar, string: derivedString }, setDerivation)}>Derive</button></div>{derivation && <div className="mt-4"><DerivationViewer accepted={derivation.accepted} forms={derivation.forms} steps={derivation.steps} /></div>}</section>
     </main>
   );
 }
