@@ -11,7 +11,7 @@ export class ApiError extends Error {
 }
 
 export async function apiPost<T>(path: string, body: unknown): Promise<T> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "";
   let response: Response;
   try {
     response = await fetch(`${baseUrl}${path}`, {
@@ -44,7 +44,7 @@ export async function apiPost<T>(path: string, body: unknown): Promise<T> {
 }
 
 export async function downloadPost(path: string, body: unknown, filename: string): Promise<void> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "";
   const response = await fetch(`${baseUrl}${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
