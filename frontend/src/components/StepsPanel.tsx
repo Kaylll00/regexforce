@@ -3,16 +3,17 @@
 import { useState } from "react";
 import type { Step } from "@/lib/types";
 
-export function StepsPanel({ steps }: { steps: Step[] }) {
+export function StepsPanel({ steps }: { steps?: Step[] | null }) {
+  const safeSteps = Array.isArray(steps) ? steps : [];
   const [open, setOpen] = useState(true);
   return (
     <section className="surface rounded-2xl">
       <button className="w-full px-4 py-4 text-left font-semibold text-slate-100" onClick={() => setOpen(!open)}>
-        {open ? "Hide" : "Show"} explanation steps ({steps.length})
+        {open ? "Hide" : "Show"} explanation steps ({safeSteps.length})
       </button>
       {open && (
         <div className="border-t border-slate-700/80 px-4 py-2 sm:px-5">
-          {steps.map((step, index) => (
+          {safeSteps.map((step, index) => (
             <article key={`${step.title}-${index}`} className="relative border-l border-slate-700 py-4 pl-7 first:pt-4 last:pb-4">
               <span className="absolute -left-[0.7rem] top-4 grid size-5 place-items-center rounded-full border border-cyan-300/40 bg-slate-900 font-mono text-[10px] font-semibold text-cyan-200">{index + 1}</span>
               <h3 className="font-semibold text-cyan-200">{step.title}</h3>
