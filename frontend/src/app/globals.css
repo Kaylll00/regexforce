@@ -58,6 +58,23 @@ button, a[class*="bg-"] {
   min-height: 2.5rem;
   line-height: 1.2;
 }
+button {
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  font-weight: 600;
+}
+button[class*="bg-cyan-"] {
+  border-color: rgba(103, 232, 249, 0.5);
+  box-shadow: 0 2px 8px rgba(8, 145, 178, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+button[class*="bg-slate-"] {
+  border-color: rgba(148, 163, 184, 0.3);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+button[class*="bg-red-"] {
+  border-color: rgba(248, 113, 113, 0.5);
+  box-shadow: 0 2px 8px rgba(153, 27, 27, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
 button:hover:not(:disabled), a[class*="bg-"]:hover {
   transform: translateY(-1px);
 }
@@ -83,6 +100,7 @@ button[class*="border-"]:not([class*="bg-"]):hover:not(:disabled) {
   color: #cffafe;
 }
 button:disabled { cursor: not-allowed; opacity: 0.55; }
+button:active:not(:disabled) { transform: translateY(0); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.22); }
 button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(103, 232, 249, 0.24);
