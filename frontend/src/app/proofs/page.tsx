@@ -25,7 +25,7 @@ export default function ProofsPage() {
   const string = custom || recommended;
 
   useEffect(() => {
-    void fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"}/api/proofs/templates`)
+    void fetch(`${process.env.NEXT_PUBLIC_API_URL ?? ""}/api/proofs/templates`)
       .then((response) => response.json() as Promise<Template[]>).then(setTemplates)
       .catch(() => setError("Could not load proof templates."));
   }, []);
