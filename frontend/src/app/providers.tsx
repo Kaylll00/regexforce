@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -22,10 +23,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-40 border-b border-slate-800/70 bg-slate-950/75 px-4 shadow-xl shadow-slate-950/20 backdrop-blur-2xl sm:px-6">
         <nav className="mx-auto flex min-h-[4.5rem] max-w-7xl items-center justify-between gap-5" aria-label="Main navigation">
           <Link className="group flex shrink-0 items-center gap-3 rounded-2xl py-2 pr-2 text-white outline-none focus-visible:ring-2 focus-visible:ring-cyan-300" href="/">
-            <span className="relative grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-cyan-300 font-mono text-sm font-bold text-slate-950 shadow-lg shadow-cyan-950/30 transition-transform duration-200 group-hover:rotate-6">
-              <span className="absolute inset-1 rounded-lg border border-slate-950/20" />
-              R
-            </span>
+            <Image src="/logo.png" width={40} height={40} alt="" aria-hidden="true" className="size-10 object-contain transition-transform duration-200 group-hover:scale-105" />
             <span className="hidden text-[0.95rem] font-semibold tracking-tight sm:inline">RegexForge</span>
           </Link>
           <div className="flex min-w-0 flex-1 justify-end overflow-x-auto py-1">
