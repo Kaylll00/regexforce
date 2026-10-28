@@ -10,7 +10,14 @@ import { usePathname } from "next/navigation";
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const pathname = usePathname();
+  useEffect(() => {
+    const updateScrollTopVisibility = () => setShowScrollTop(window.scrollY > 320);
+    updateScrollTopVisibility();
+    window.addEventListener("scroll", updateScrollTopVisibility, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollTopVisibility);
+  }, []);
   useEffect(() => {
     if (!menuOpen) return;
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -89,6 +96,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
         </aside>
       </div>}
       {children}
+      {showScrollTop && <button
+        type="button"
+        aria-label="Scroll to top"
+        title="Scroll to top"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-[max(1rem,env(safe-area-inset-right))] z-30 grid size-12 place-items-center rounded-full border border-cyan-200/40 bg-cyan-300 text-xl font-bold text-slate-950 shadow-lg shadow-cyan-950/30 transition hover:-translate-y-1 hover:bg-cyan-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-100 sm:hidden"
+      >
+        <span aria-hidden="true">↑</span>
+      </button>}
     </QueryClientProvider>
   );
 }
