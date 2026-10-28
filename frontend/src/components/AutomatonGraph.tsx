@@ -2,7 +2,7 @@
 
 import type { Automaton } from "@/lib/types";
 import { layoutAutomaton } from "@/lib/layout";
-import { Background, ReactFlow, type Connection, type NodeChange, type OnNodesChange } from "@xyflow/react";
+import { Background, Controls, ReactFlow, type Connection, type NodeChange, type OnNodesChange } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
 type Props = {
@@ -27,8 +27,8 @@ export function AutomatonGraph({ automaton, activeStates = [], height = 260, edi
       borderRadius: "9999px",
       background: activeStates.includes(node.id) ? "#155e75" : "#1e293b",
       color: "#e2e8f0",
-      width: 48,
-      height: 48,
+      width: 54,
+      height: 54,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -41,11 +41,17 @@ export function AutomatonGraph({ automaton, activeStates = [], height = 260, edi
     }
   };
   return (
-    <div className="automaton-flow overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-950 shadow-inner shadow-cyan-950/20" style={{ height }}>
+    <div className="automaton-flow overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-950 shadow-inner shadow-cyan-950/20" style={{ height: `clamp(220px, ${height}px, 42vh)` }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
         fitView
+        fitViewOptions={{ padding: 0.2, minZoom: 0.35, maxZoom: 1.25 }}
+        minZoom={0.25}
+        maxZoom={2}
+        zoomOnPinch
+        panOnDrag
+        preventScrolling={false}
         nodesDraggable={editable}
         nodesConnectable={editable}
         elementsSelectable={editable}
@@ -54,6 +60,7 @@ export function AutomatonGraph({ automaton, activeStates = [], height = 260, edi
         onConnect={editable ? onConnect : undefined}
       >
         <Background color="#334155" />
+        <Controls className="graph-controls" showInteractive={false} position="bottom-right" />
       </ReactFlow>
     </div>
   );

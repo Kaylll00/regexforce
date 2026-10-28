@@ -78,7 +78,7 @@ export default function Studio() {
       <section className="overflow-auto rounded-xl border border-slate-700 bg-slate-900 p-3"><AutomatonTable table={build.tables[selected]} /></section>
       <section className="rounded-xl border border-slate-700 bg-slate-900 p-4">
         <h2 className="mb-3 text-xl font-semibold">Test a string</h2>
-        <div className="flex flex-wrap gap-2"><input className="flex-1 rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 font-mono" value={testString} onChange={(event) => setTestString(event.target.value)} placeholder="abcb" /><button className="rounded-lg bg-cyan-400 px-4 font-semibold text-slate-950" onClick={() => void simulate()}>Simulate</button><button className="rounded-lg bg-slate-700 px-4" disabled={busy} onClick={() => void exportReport()}>Export PDF + CSV</button></div>
+        <div className="flex flex-col gap-2 sm:flex-row"><input className="min-w-0 flex-1 rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 font-mono" value={testString} onChange={(event) => setTestString(event.target.value)} placeholder="abcb" /><button className="rounded-lg bg-cyan-400 px-4 font-semibold text-slate-950" onClick={() => void simulate()}>Simulate</button><button className="rounded-lg bg-slate-700 px-4" disabled={busy} onClick={() => void exportReport()}>Export PDF + CSV</button></div>
         {verdict && <p className={`mt-3 font-semibold ${verdict.accepted ? "text-emerald-300" : "text-red-300"}`}>{verdict.accepted ? "Accepted" : "Rejected"} — {verdict.reason}</p>}
       </section>
       <StepsPanel steps={build.steps_by_stage[selected] ?? []} />
