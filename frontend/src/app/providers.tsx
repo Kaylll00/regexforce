@@ -82,7 +82,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 className={`grid min-h-12 grid-cols-[2rem_minmax(0,1fr)] items-center gap-3 rounded-xl border px-4 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 ${active ? "border-cyan-300/40 bg-cyan-300 text-slate-950" : "border-slate-800 bg-slate-900/80 text-slate-200 hover:border-slate-600 hover:bg-slate-800"}`}
                 href={href}
                 key={href}
-                onClick={() => setMenuOpen(href === "/proofs")}
+                onClick={() => setMenuOpen(false)}
               ><span className={`text-right font-mono text-xs ${active ? "text-slate-700" : "text-slate-500"}`}>{String(index + 1).padStart(2, "0")}</span><span className="text-left">{label}</span></Link>;
             })}
           </nav>
